@@ -1,29 +1,11 @@
-// import User from '../models/user.js';
-
-// export const getUserProfile = async (req, res) => {
-//   try {
-//     const userId = req.user.id; // Extracted from the JWT token
-//     const user = await User.findById(userId).select('-password'); // Exclude password
-
-//     if (!user) {
-//       return res.status(404).json({ message: 'User not found' });
-//     }
-
-//     res.status(200).json(user);
-//   } catch (error) {
-//     console.error('Error fetching user profile:', error);
-//     res.status(500).json({ message: 'Internal Server Error' });
-//   }
-// };
-
 
 import User from '../models/user.js';
 
 export const getUserProfile = async (req, res) => {
   try {
-    // const { id } = req.params;
+    const { id } = req.params;
 
-    const user = await User.findById(req.user.id)
+    const user = await User.findById(id)
       .populate('followers', 'username profilePic') // Populate followers
       .populate('following', 'username profilePic'); // Populate following
 
