@@ -85,3 +85,24 @@ export const followUser = async (req, res) => {
     }
   };
   
+
+  export const getAllUsers = async (req, res) => {
+    try {
+      const users = await User.find().select('username profilePic followers following posts');
+  
+      const usersData = users.map(user => ({
+        id: user._id,
+        username: user.username,
+        profilePic: user.profilePic,
+        followersCount: user.followers.length,
+        followingCount: user.following.length,
+        postsCount: user.posts.length,
+      }));
+  
+      res.status(200).json(usersData);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+  
